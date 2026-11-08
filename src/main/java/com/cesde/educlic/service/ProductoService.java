@@ -84,9 +84,12 @@ public class ProductoService {
         productoRepository.deleteById(id);
     }
 
-    // Método auxiliar para evitar duplicar la validación de tallas
+    // Método auxiliar para evitar duplicar la validación de tallas.
+    // Las tallas numéricas (36-44) solo aplican a la categoría Tenis.
     private void validarTallas(Producto producto) {
-        if (producto.getTallas() != null) {
+        boolean esTenis = producto.getCategoria() != null
+                && "Tenis".equalsIgnoreCase(producto.getCategoria().getNombre());
+        if (esTenis && producto.getTallas() != null) {
             for (String talla : producto.getTallas()) {
                 TallaTenis.desdeValor(talla);
             }
